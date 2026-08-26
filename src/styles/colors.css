@@ -16,25 +16,25 @@
   --color-text-primary: var(--color-dark-brown);
   --color-text-secondary: var(--color-warm-brown);
   --color-text-muted: #a0927f;
-  
+
   /* Accent system */
-  --color-accent: var(--color-accent-gold);
+   --color-accent: var(--color-accent-gold);
   --color-accent-dark: var(--color-dark-gold);
   --color-accent-light: var(--color-light-gold);
-  
+
   /* Interactive elements */
   --color-border-primary: var(--color-warm-brown);
   --color-border-secondary: #d4c7b8;
   --color-hover-bg: #f0e9d9;
   --color-active-bg: #ddd5c3;
   --color-focus-ring: var(--color-accent);
-  
+
   /* Semantic states */
   --color-success: #4caf50;
   --color-warning: #ff9800;
   --color-error: #f44336;
   --color-info: #2196f3;
-  
+
   /* Selection and highlights */
   --color-selection-bg: rgba(194, 164, 122, 0.2);
   --color-highlight: rgba(194, 164, 122, 0.1);
@@ -72,7 +72,7 @@
 
 .bg-accent {
   background-color: var(--color-accent);
-  color: var(--color-dark-brown);
+   color: var(--color-dark-brown);
 }
 
 .bg-border-primary {

@@ -16,9 +16,10 @@ import {
   ArrowUpRight,
   ImageIcon,
   Heart,
+  Mail,
 } from "lucide-react";
 import Link from "next/link";
-import { PROJECTS, SOCIAL_LINKS } from "@/config";
+import { PROJECTS, EXPERIENCE, EDUCATION, SKILLS, SOCIAL_LINKS } from "@/config";
 
 
 // --- Components ---
@@ -31,7 +32,7 @@ function MathStructure() {
 
   // Responsive scaling for the 3D model
   const responsiveScale = width < 7 ? 0.7 : 1;
-  const responsivePosition: [number, number, number] = width < 7 ? [0, 0, -1] : [3, 0.1, -2];
+  const responsivePosition: [number, number, number] = width < 7 ? [0, 0, -1] : [-3, 0.1, -2];
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -114,7 +115,7 @@ export default function Portfolio() {
   return (
     <>
       <Header />
-      <main className="relative pt-16 md:pt-20 selection:bg-[#c2a47a] selection:text-white overflow-x-hidden font-serif">
+      <main className="relative pt-16 md:pt-20 selection:bg-[#c2a47a] selection:text-white overflow-x-hidden font-sans">
 
         {/* 1. CANVAS BACKGROUND */}
         <div className="fixed inset-0 z-0 pointer-events-none">
@@ -132,35 +133,50 @@ export default function Portfolio() {
         <div className="fixed inset-0 z-100 pointer-events-none opacity-[0.06] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
 
         {/* 3. HERO SECTION */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center z-10 px-6">
-          <motion.div style={{ y: yTranslate, opacity: heroOpacity }} className="text-center w-full max-w-5xl">
-            <div className="mb-6 md:mb-8 flex items-center justify-center gap-3 md:gap-4 opacity-60">
-              <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
-              <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.6em] font-bold italic">
-                Hey there, This is
-              </span>
-              <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
-            </div>
+        <section className="relative -mt-16 md:-mt-20 min-h-screen flex items-center z-10 px-6 md:px-12 lg:px-20">
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12">
+            <div aria-hidden className="hidden lg:block" />
 
-            <h1 className="text-[22vw] md:text-[13rem] font-medium tracking-tighter leading-[0.8] lowercase italic text-[#1a1815]">
-              jefnish
-            </h1>
+            <motion.div
+              style={{ y: yTranslate, opacity: heroOpacity }}
+              className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto text-center lg:text-left"
+            >
+              <div className="mb-6 md:mb-8 flex items-center justify-center lg:justify-start gap-3 md:gap-4 opacity-60">
+                <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
+                <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.35em] font-bold">
+                  Hey there, this is
+                </span>
+              </div>
 
-            <div className="mt-8 md:mt-12 max-w-2xl mx-auto border-t border-[#1a1815]/10 pt-6 md:pt-8">
-              <p className="font-serif italic leading-relaxed text-[#1a1815]/80">
-                I am a Software Engineer based in Tamil Nadu, India, who is
-                fascinated by{" "}
-                <span className="text-[#8c6b42]">
-                  large-scale, high-impact products,
-                </span>{" "}
-                smooth user experiences, and the philosophy behind them.
-              </p>
-            </div>
-          </motion.div>
+              <h1 className="font-display text-[20vw] sm:text-8xl md:text-9xl lg:text-[6.5rem] xl:text-[7.5rem] font-bold tracking-tighter leading-[0.85] lowercase text-[#1a1815]">
+                jefnish
+              </h1>
 
-          <div className="absolute bottom-8 md:bottom-12 flex flex-col items-center gap-4 opacity-40">
+              <div className="mt-4 md:mt-5">
+                <p className="text-base md:text-lg leading-relaxed text-[#1a1815]/80">
+                  I&apos;m a full-stack engineer based in Tamil Nadu, India. I build with{" "}
+                  <span className="text-[#8c6b42] font-medium">
+                    React, Next.js, TypeScript, Rust, and Python
+                  </span>
+                  {" "}— everything from high-throughput systems to my own LLM/RAG side project. Off the clock, I&apos;m doing calisthenics, lost in poetry or a sci-fi novel, or working through a self-help book.
+                </p>
+                <a
+                  href="#connect-section"
+                  className="group inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] uppercase tracking-[0.25em] font-bold text-[#8c6b42] hover:text-[#1a1815] transition-colors"
+                >
+                  Say hi
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50">
             <div className="w-px h-12 md:h-16 bg-gradient-to-b from-[#1a1815] to-transparent" />
-            <span className="font-mono text-[8px] uppercase tracking-[0.5em] md:tracking-[1em]">Scroll</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em] md:tracking-[0.4em]">Scroll</span>
           </div>
         </section>
 
@@ -169,35 +185,47 @@ export default function Portfolio() {
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16">
             <div className="lg:col-span-8">
               <div className="space-y-3 mb-8 md:mb-12">
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-secondary font-bold">01 // About Me</span>
-                <h2 className="text-4xl md:text-6xl font-medium italic tracking-tighter text-[#1a1815]">Capability</h2>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-secondary font-bold">/ about me</span>
+                <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-[#1a1815]">Capability</h2>
               </div>
 
               <div className="space-y-8 md:space-y-12">
-                <p className="text-lg md:text-xl font-medium leading-relaxed italic text-[#1a1815]">
-                  Developing high-performance interfaces where <span className="text-secondary">mathematical precision</span> meets fluid user experience.
+                <p className="text-lg md:text-xl font-medium leading-relaxed text-[#1a1815]">
+                  I&apos;m currently a Frontend Developer at Haddy Designs, where I own <span className="text-secondary">systems end-to-end — API design, database schema, deployment, and production support</span>.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-[#1a1815]/80">
                   <p className="text-sm md:text-base leading-relaxed">
-                    I specialize in building scalable frontend architectures using the React ecosystem and 3D web technologies.
+                    I build and scale web and desktop applications with React, Next.js, TypeScript, Rust, and Python, deployed and monitored on AWS (Amplify, Route 53, RDS).
                   </p>
                   <p className="text-sm md:text-base leading-relaxed">
-                    My approach is rooted in technical rigor—ensuring performance standards across all platforms.
+                    On the side, I&apos;m building a self-directed LLM/RAG pipeline for natural-language Q&amp;A over documents.
                   </p>
                 </div>
 
-                <div>
-                  <h4 className="font-mono text-[9px] uppercase tracking-[0.4em] text-[#1a1815] font-bold mb-6 opacity-40 border-b border-[#1a1815]/10 pb-2">Technical Stack</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 md:gap-y-6">
-                    {["React / Next.js", "TypeScript", "Three.js", "Python", "Tailwind", "GLSL"].map((tech) => (
-                      <div key={tech} className="flex items-center gap-3 group">
-                        <div className="w-1 h-1 bg-border-primary group-hover:w-2 transition-all" />
-                        <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold">{tech}</span>
+                <div className="space-y-5">
+                  {SKILLS.map((category) => (
+                    <div key={category.name} className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
+                      <h4 className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#1a1815] font-bold opacity-50 sm:w-40 shrink-0">{category.name}</h4>
+                      <div className="flex flex-wrap items-center gap-y-1.5">
+                        {category.items.map((tech, i) => (
+                          <span key={tech} className="flex items-center">
+                            <span className="font-mono text-[10px] uppercase tracking-wide font-bold text-[#1a1815]/70">
+                              {tech}
+                            </span>
+                            {i < category.items.length - 1 && (
+                              <span className="mx-2 text-[#1a1815]/25">/</span>
+                            )}
+                          </span>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
+
+                <p className="text-sm md:text-base leading-relaxed text-[#1a1815]/80">
+                  Outside of work, I&apos;m into calisthenics, poetry, sci-fi novels, and self-help books.
+                </p>
               </div>
             </div>
 
@@ -207,21 +235,49 @@ export default function Portfolio() {
                   <Cpu size={14} className="text-[#c2a47a]" />
                   <span className="font-mono text-[9px] uppercase tracking-widest font-bold">Philosophy</span>
                 </div>
-                <p className="text-lg md:text-xl italic mb-8 font-medium leading-snug">"Code is the foundation of the visual experience."</p>
+                <p className="text-lg md:text-xl mb-8 font-medium leading-snug">"Better a fool for five minutes than a fool for life."</p>
                 <div className="space-y-4 opacity-60 text-[9px] font-mono uppercase tracking-widest">
                   <div className="border-t border-white/10 pt-4">Primary Focus: <span className="text-[#c2a47a]">DSA</span></div>
-                  <div>Secondary Focus: <span className="text-[#c2a47a]">Optimization</span></div>
+                  <div>Secondary Focus: <span className="text-[#c2a47a]">AI</span></div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 5. PROJECTS */}
+        {/* 5. EXPERIENCE */}
+        <section id="experience-section" className="relative bg-[#e8e2d2] py-20 md:py-32 px-6 md:px-24 z-10 border-t border-[#1a1815]/10">
+          <div className="max-w-6xl mx-auto mb-10 md:mb-16 border-b border-[#1a1815]/20 pb-8">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-secondary font-bold block mb-2">/ experience</span>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-[#1a1815]">Track Record</h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto space-y-12 md:space-y-16">
+            {EXPERIENCE.map((job) => (
+              <div key={job.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+                <div className="md:col-span-4">
+                  <h3 className="font-display text-2xl md:text-3xl font-semibold text-[#1a1815]">{job.role}</h3>
+                  <p className="text-sm md:text-base font-medium text-secondary mt-1">{job.company}</p>
+                  <p className="font-mono text-[9px] uppercase tracking-widest opacity-50 mt-3">{job.duration}</p>
+                  <p className="font-mono text-[9px] uppercase tracking-widest opacity-50">{job.location}</p>
+                </div>
+                <ul className="md:col-span-8 space-y-4">
+                  {job.points.map((point, idx) => (
+                    <li key={idx} className="text-sm md:text-base leading-relaxed text-[#1a1815]/80 pl-5 relative before:content-['—'] before:absolute before:left-0 before:text-secondary">
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 6. PROJECTS */}
         <section id="projects-section" className="relative bg-[#e8e2d2] py-20 md:py-32 px-6 md:px-24 z-10">
           <div className="max-w-6xl mx-auto mb-10 md:mb-16 border-b border-[#1a1815]/20 pb-8">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-secondary font-bold block mb-2">02 // Projects</span>
-            <h2 className="text-4xl md:text-6xl italic font-medium tracking-tighter text-[#1a1815]">Digital LAB</h2>
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-secondary font-bold block mb-2">/ projects</span>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-[#1a1815]">Digital LAB</h2>
           </div>
 
           <div className="max-w-6xl mx-auto">
@@ -230,7 +286,7 @@ export default function Portfolio() {
                 <span className="md:col-span-1 font-mono text-[10px] font-bold text-secondary">{project.id}</span>
 
                 <div className="md:col-span-6 flex items-center gap-4">
-                  <h3 className="text-3xl md:text-5xl italic group-hover:translate-x-2 transition-transform duration-500">{project.title}</h3>
+                  <h3 className="font-display text-3xl md:text-5xl font-semibold group-hover:translate-x-2 transition-transform duration-500">{project.title}</h3>
                   <button
                     className="hidden md:block p-2 rounded-full border border-[#1a1815]/20 hover:bg-[#1a1815] hover:text-[#e8e2d2] transition-all"
                     onMouseEnter={() => setActiveImageId(project.id)}
@@ -240,7 +296,7 @@ export default function Portfolio() {
                   </button>
                 </div>
 
-                <p className="md:col-span-3 text-sm opacity-70 italic">{project.desc}</p>
+                <p className="md:col-span-3 text-sm leading-relaxed opacity-70">{project.desc}</p>
 
                 <div className="md:col-span-2 flex justify-end items-center gap-3 w-full md:w-auto">
                   <a href={project.githubUrl} className="p-2 rounded-full border border-[#1a1815]/10 hover:bg-[#1a1815]/5 transition-all"><Github size={16} /></a>
@@ -267,27 +323,35 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* 6. FOOTER */}
-        <footer id="connect-section" className="relative py-20 md:py-24 px-6 md:px-24 z-10 bg-[#1a1815] text-[#e8e2d2]">
-          <div className="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 md:gap-20">
-            <div className="space-y-8">
-              <span className="font-mono text-[10px] uppercase tracking-[0.5em] opacity-50 block">Contact</span>
-              <a href="mailto:jefnish@folio.dev" className="text-3xl md:text-5xl font-serif italic hover:text-[#c2a47a] transition-colors break-words">
-                jefnish007@gmail.com
-              </a>
-              <div className="flex flex-wrap gap-6 md:gap-10 font-mono text-[10px] uppercase tracking-widest pt-6">
-                <span className="hover:text-[#c2a47a] cursor-pointer transition-colors">LinkedIn</span>
-                <span className="hover:text-[#c2a47a] cursor-pointer transition-colors">GitHub</span>
-                <span className="hover:text-[#c2a47a] cursor-pointer transition-colors">Archive</span>
+        {/* 7. EDUCATION */}
+        <section id="education-section" className="relative bg-[#e8e2d2] py-20 md:py-32 px-6 md:px-24 z-10 border-t border-[#1a1815]/10">
+          <div className="max-w-6xl mx-auto mb-10 md:mb-16 border-b border-[#1a1815]/20 pb-8">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-secondary font-bold block mb-2">/ education</span>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-[#1a1815]">Foundations</h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto space-y-10 md:space-y-14">
+            {EDUCATION.map((edu) => (
+              <div key={edu.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+                <div className="md:col-span-4">
+                  <p className="font-mono text-[9px] uppercase tracking-widest opacity-50 mt-1">{edu.duration}</p>
+                  <p className="font-mono text-[9px] uppercase tracking-widest opacity-50">{edu.location}</p>
+                </div>
+                <div className="md:col-span-8">
+                  <h3 className="font-display text-xl md:text-2xl font-semibold text-[#1a1815]">{edu.degree}</h3>
+                  <p className="text-sm md:text-base font-medium text-secondary mt-1">{edu.institution}</p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col justify-end md:items-end opacity-40 text-left md:text-right">
-              <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest leading-loose">
-                Architecting Digital Artifacts<br />
-                Tamil Nadu, India / 2026<br />
-                All Rights Reserved
-              </p>
-            </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 8. FOOTER */}
+        <footer id="connect-section" className="relative py-16 md:py-20 px-6 z-10 bg-primary text-primary border-t border-[#1a1815]/10">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="mt-12 font-mono text-[9px] uppercase tracking-widest opacity-40">
+              Designed &amp; built by Jefnish · Tamil Nadu, India · 2026
+            </p>
           </div>
         </footer>
       </main>
@@ -308,7 +372,7 @@ const Header = () => {
       <div className="pointer-events-auto">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.8em] font-bold text-[#1a1815] group"
+          className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-[#1a1815] group"
         >
           JEFNISH
           <span className="block h-px w-0 bg-border-primary group-hover:w-full transition-all duration-500" />
@@ -316,8 +380,8 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-4 pointer-events-auto">
-        <nav className="hidden sm:flex gap-4 font-mono text-[10px] md:tracking-[0.8em] tracking-[0.4em] uppercase font-bold opacity-70">
-          {["About", "Projects", "Connect"].map((name, index) => (
+        <nav className="hidden sm:flex gap-4 font-mono text-[10px] md:tracking-[0.25em] tracking-[0.15em] uppercase font-bold opacity-90">
+          {["About", "Experience", "Projects", "Education", "Connect"].map((name, index) => (
             <div key={name} className="flex items-center gap-4">
               {/* Render the slash before every item EXCEPT the first one */}
               {index > 0 && <span className="text-gray-400 pointer-events-none">/</span>}
@@ -344,6 +408,12 @@ const Header = () => {
             </a>
           );
         })}
+        <a
+          href="mailto:jefnish007@gmail.com"
+          className="hover:text-[#c2a47a] transition-all hover:scale-110"
+        >
+          <Mail size={14} />
+        </a>
       </div>
 
       {/* Scroll-triggered bottom border that grows from center */}

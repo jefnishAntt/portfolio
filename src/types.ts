@@ -14,4 +14,26 @@ interface SocialLinks {
   icon: React.ComponentType<{ size?: number; color?: string }>;
 }
 
-export type { Project, SocialLinks };
+interface Experience {
+  id: string;
+  role: string;
+  company: string;
+  duration: string;
+  location: string;
+  points: string[];
+}
+
+interface Education {
+  id: string;
+  degree: string;
+  institution: string;
+  duration: string;
+  location: string;
+}
+
+interface SkillCategory {
+  name: string;
+  items: string[];
+}
+
+export type { Project, SocialLinks, Experience, Education, SkillCategory };
