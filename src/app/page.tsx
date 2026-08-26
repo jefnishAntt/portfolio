@@ -32,7 +32,7 @@ function MathStructure() {
 
   // Responsive scaling for the 3D model
   const responsiveScale = width < 7 ? 0.7 : 1;
-  const responsivePosition: [number, number, number] = width < 7 ? [0, 0, -1] : [-3, 0.1, -2];
+  const responsivePosition: [number, number, number] = width < 7 ? [0, 0, -1] : [3.8, 0.8, -2];
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -133,48 +133,42 @@ export default function Portfolio() {
         <div className="fixed inset-0 z-100 pointer-events-none opacity-[0.06] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]" />
 
         {/* 3. HERO SECTION */}
-        <section className="relative -mt-16 md:-mt-20 min-h-screen flex items-center z-10 px-6 md:px-12 lg:px-20">
-          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-12">
-            <div aria-hidden className="hidden lg:block" />
+        <section className="relative -mt-16 md:-mt-20 min-h-screen flex flex-col items-center justify-center z-10 px-6">
+          <motion.div style={{ y: yTranslate, opacity: heroOpacity }} className="text-center w-full max-w-5xl">
+            <div className="mb-6 md:mb-8 flex items-center justify-center gap-3 md:gap-4 opacity-60">
+              <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
+              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.35em] font-bold">
+                Hey there, this is
+              </span>
+              <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
+            </div>
 
-            <motion.div
-              style={{ y: yTranslate, opacity: heroOpacity }}
-              className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto text-center lg:text-left"
-            >
-              <div className="mb-6 md:mb-8 flex items-center justify-center lg:justify-start gap-3 md:gap-4 opacity-60">
-                <div className="h-px w-4 md:w-8 bg-[#1a1815]" />
-                <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.35em] font-bold">
-                  Hey there, this is
+            <h1 className="font-display text-[20vw] md:text-9xl lg:text-[11rem] font-bold tracking-tighter leading-[0.85] lowercase text-[#1a1815]">
+              jefnish
+            </h1>
+
+            <div className="mt-6 md:mt-8 max-w-2xl mx-auto">
+              <p className="text-base md:text-lg leading-relaxed text-[#1a1815]/80">
+                I&apos;m a full-stack engineer based in Tamil Nadu, India. I build with{" "}
+                <span className="text-[#8c6b42] font-medium">
+                  React, Next.js, TypeScript, Rust, and Python
                 </span>
-              </div>
+                {" "}— everything from high-throughput systems to my own LLM/RAG side project. Off the clock, I&apos;m doing calisthenics, lost in poetry or a sci-fi novel, or working through a self-help book.
+              </p>
+              <a
+                href="#connect-section"
+                className="group inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] uppercase tracking-[0.25em] font-bold text-[#8c6b42] hover:text-[#1a1815] transition-colors"
+              >
+                Say hi
+                <ArrowUpRight
+                  size={14}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+            </div>
+          </motion.div>
 
-              <h1 className="font-display text-[20vw] sm:text-8xl md:text-9xl lg:text-[6.5rem] xl:text-[7.5rem] font-bold tracking-tighter leading-[0.85] lowercase text-[#1a1815]">
-                jefnish
-              </h1>
-
-              <div className="mt-4 md:mt-5">
-                <p className="text-base md:text-lg leading-relaxed text-[#1a1815]/80">
-                  I&apos;m a full-stack engineer based in Tamil Nadu, India. I build with{" "}
-                  <span className="text-[#8c6b42] font-medium">
-                    React, Next.js, TypeScript, Rust, and Python
-                  </span>
-                  {" "}— everything from high-throughput systems to my own LLM/RAG side project. Off the clock, I&apos;m doing calisthenics, lost in poetry or a sci-fi novel, or working through a self-help book.
-                </p>
-                <a
-                  href="#connect-section"
-                  className="group inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] uppercase tracking-[0.25em] font-bold text-[#8c6b42] hover:text-[#1a1815] transition-colors"
-                >
-                  Say hi
-                  <ArrowUpRight
-                    size={14}
-                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </a>
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50">
+          <div className="absolute bottom-8 md:bottom-12 flex flex-col items-center gap-4 opacity-50">
             <div className="w-px h-12 md:h-16 bg-gradient-to-b from-[#1a1815] to-transparent" />
             <span className="font-mono text-[9px] uppercase tracking-[0.3em] md:tracking-[0.4em]">Scroll</span>
           </div>
