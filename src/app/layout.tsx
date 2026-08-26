@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Geist_Mono, NTR } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
 });
 
@@ -12,9 +12,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const ntr = NTR({
+  weight: "400",
+  variable: "--font-ntr",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Jefnish",
-  description: "Jefnish Antt - Software Engineer",
+  description: "Jefnish Antt - Full-Stack Software Engineer",
 };
 
 export default function RootLayout({
@@ -25,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${figtree.variable} ${geistMono.variable} ${ntr.variable} antialiased`}
       >
         {children}
       </body>
