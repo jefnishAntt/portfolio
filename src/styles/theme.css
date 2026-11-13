@@ -1,0 +1,49 @@
+/* ==========================================================================
+   THEME — every colour on the site lives here.
+   Change --accent to retheme the whole site (try #22d3ee for neural cyan).
+   ========================================================================== */
+
+:root,
+:root[data-theme="dark"] {
+  --accent: #8b5cf6;
+
+  --bg: #0a0a0b;
+  --surface: #111113;
+  --surface-hover: #161619;
+  --fg: #ededed;
+  --muted: #9a9a9a;
+  --faint: #7c7c82; /* mono labels; still ≥ 4.5:1 on --bg */
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.14);
+  --dock-bg: rgb(17 17 19 / 0.72);
+  --paper-rule: transparent;
+
+  /* Derived from --accent: no need to edit these */
+  --accent-ink: color-mix(in oklab, var(--accent) 72%, white); /* readable accent text */
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
+  --accent-glow: color-mix(in oklab, var(--accent) 55%, transparent);
+  --brainwave-opacity: 0.32;
+
+  color-scheme: dark;
+}
+
+/* Light mode: "lab notebook" (off-white paper, faint ruled lines) */
+:root[data-theme="light"] {
+  --bg: #f6f4ee;
+  --surface: #fbfaf6;
+  --surface-hover: #f1efe8;
+  --fg: #1b1a18;
+  --muted: #5c5a55;
+  --faint: #6f6c66;
+  --line: rgb(27 26 24 / 0.1);
+  --line-strong: rgb(27 26 24 / 0.18);
+  --dock-bg: rgb(251 250 246 / 0.75);
+  --paper-rule: rgb(27 26 24 / 0.04);
+
+  --accent-ink: color-mix(in oklab, var(--accent) 82%, black);
+  --accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+  --accent-glow: color-mix(in oklab, var(--accent) 40%, transparent);
+  --brainwave-opacity: 0.28;
+
+  color-scheme: light;
+}

@@ -1,34 +1,22 @@
-import { Project, SocialLinks, Experience, Education, SkillCategory } from "./types";
-import {
-  Github,
-  Linkedin,
-} from "lucide-react";
+import { SocialLinks, Experience, Education, SkillCategory } from "./types";
+import { Github, Linkedin, Mail } from "lucide-react";
 
-const PROJECTS: Project[] = [
-  {
-    id: "PRJ-01",
-    title: "AI Document Assistant",
-    year: "2026",
-    desc: "A Retrieval-Augmented Generation (RAG) pipeline for natural-language Q&A over large document sets, combining vector retrieval with LLM-based response generation.",
-    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=800",
-    liveUrl: "#",
-    githubUrl: "https://github.com/jefnishAntt",
-  },
-  {
-    id: "PRJ-02",
-    title: "E-Commerce Platform",
-    year: "2025",
-    desc: "A full-stack e-commerce platform with server-rendered catalogs, a type-safe REST API, and a relational schema keeping stock and orders consistent under concurrent checkouts.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800",
-    liveUrl: "#",
-    githubUrl: "https://github.com/jefnishAntt",
-  },
-];
+const PROFILE = {
+  name: "Jefnish Antt J",
+  firstName: "Jefnish",
+  lastName: "ANTT",
+  tagline: "Developer learning how brains and machines think.",
+  /** Put a photo in /public (e.g. /profile.jpg) and set the path here. Empty → initials placeholder. */
+  photo: "",
+  email: "jefnish007@gmail.com",
+  location: "Tamil Nadu, India",
+  openToWork: true,
+};
 
 const EXPERIENCE: Experience[] = [
   {
     id: "EXP-01",
-    role: "Frontend Developer",
+    role: "Developer · Frontend & Backend",
     company: "Haddy Designs",
     duration: "May 2024 — Present",
     location: "Tamil Nadu, India",
@@ -60,39 +48,17 @@ const EDUCATION: Education[] = [
 ];
 
 const SKILLS: SkillCategory[] = [
-  {
-    name: "Languages & Frameworks",
-    items: ["TypeScript", "React.js", "Next.js", "Python"],
-  },
-  {
-    name: "Backend & Systems",
-    items: ["RESTful API Design", "System Design Fundamentals", "Authentication & Security"],
-  },
-  {
-    name: "Cloud & Infrastructure",
-    items: ["AWS Amplify", "AWS RDS", "Route 53"],
-  },
-  {
-    name: "AI/ML Foundations",
-    items: ["RAG", "Vector Databases", "LLM-based Application Design"],
-  },
-  {
-    name: "Web & Desktop",
-    items: ["Tailwind CSS", "Tauri (Desktop Apps)", "UI/UX Design"],
-  },
+  { name: "Languages & Frameworks", items: ["TypeScript", "React.js", "Next.js", "Python"] },
+  { name: "Backend & Systems", items: ["RESTful API Design", "System Design Fundamentals", "Authentication & Security"] },
+  { name: "Cloud & Infrastructure", items: ["AWS Amplify", "AWS RDS", "Route 53"] },
+  { name: "AI/ML Foundations", items: ["RAG", "Vector Databases", "LLM-based Application Design"] },
+  { name: "Web & Desktop", items: ["Tailwind CSS", "Tauri (Desktop Apps)", "UI/UX Design"] },
 ];
 
 const SOCIAL_LINKS: SocialLinks[] = [
-  {
-    name: "GitHub",
-    url: "https://github.com/jefnishAntt",
-    icon: Github,
-  },
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/jefnishantt/",
-    icon: Linkedin,
-  },
+  { name: "GitHub", url: "https://github.com/jefnishAntt", icon: Github },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/jefnishantt/", icon: Linkedin },
+  { name: "Email", url: `mailto:${PROFILE.email}`, icon: Mail },
 ];
 
-export { PROJECTS, EXPERIENCE, EDUCATION, SKILLS, SOCIAL_LINKS };
+export { PROFILE, EXPERIENCE, EDUCATION, SKILLS, SOCIAL_LINKS };

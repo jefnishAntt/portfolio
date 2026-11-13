@@ -1,0 +1,10 @@
+[
+  { "date": "2026-11-10", "entry": "Eigenvectors finally clicked: they're the directions a transformation only stretches. Now I see why PCA uses them." },
+  { "date": "2026-11-03", "entry": "Visualised matrix multiplication as composing linear transformations. A lot less mysterious now." },
+  { "date": "2026-10-27", "entry": "Wrote vector and matrix ops in plain Python before touching NumPy, just to prove I understand them." },
+  { "date": "2026-10-18", "entry": "Started linear algebra. Vectors as arrows, vectors as lists, and how the two views connect." },
+  { "date": "2026-10-09", "entry": "Finished the algebra block: polynomials, logarithms, exponentials. Marked it complete on the tree." },
+  { "date": "2026-09-28", "entry": "Read an intro on how EEG electrodes pick up neural activity. Bookmarked it for when I get there." },
+  { "date": "2026-09-15", "entry": "Refreshed Python fundamentals: comprehensions, generators, type hints." },
+  { "date": "2026-09-01", "entry": "Day one. Mapped the path from Python to brain-computer interfaces and started this log." }
+]
