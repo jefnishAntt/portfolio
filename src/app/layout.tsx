@@ -12,14 +12,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const description = "Developer learning how brains and machines think.";
+const description =
+  "Jefnish Antt: developer at Haddy Designs and final-year CSE student, learning the maths, AI and neuroscience behind brain-computer interfaces.";
 
 export const metadata: Metadata = {
-  title: "Jefnish Antt",
+  title: {
+    default: "Jefnish ANTT · Developer, brains & machines",
+    template: "%s · Jefnish ANTT",
+  },
   description,
+  applicationName: "Jefnish ANTT",
   authors: [{ name: "Jefnish Antt J" }],
-  openGraph: { title: "Jefnish Antt", description, type: "website" },
-  twitter: { card: "summary", title: "Jefnish Antt", description },
+  openGraph: { title: "Jefnish ANTT · Developer, brains & machines", description, type: "website" },
+  twitter: { card: "summary", title: "Jefnish ANTT · Developer, brains & machines", description },
   referrer: "strict-origin-when-cross-origin",
 };
 
