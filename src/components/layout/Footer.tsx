@@ -1,31 +1,25 @@
 import ShortcutToggle from "./ShortcutToggle";
+import ExternalLink from "@/components/ui/ExternalLink";
 import { PROFILE } from "@/config";
 
+/** One quiet line: who, and the credit the brain model's licence (CC BY 4.0) requires. */
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-[720px] border-t border-line px-4 py-10 sm:px-6">
-      <div className="flex flex-col gap-1 font-mono text-xs text-faint sm:flex-row sm:justify-between">
+    <footer className="mx-auto max-w-[52rem] px-4 pb-28 pt-6 sm:px-6 sm:pb-10">
+      <div className="flex flex-col gap-2 border-t border-line pt-6 font-mono text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {new Date().getFullYear()} {PROFILE.name}
         </p>
-        <p>Built by me · {PROFILE.location}</p>
-      </div>
-
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <ShortcutToggle />
-        <p className="font-mono text-[11px] text-faint">
-          Brain model by{" "}
-          <a
+        <div className="flex items-center gap-3">
+          <ExternalLink
             href="https://sketchfab.com/3d-models/brain-cadd2bde67404c43b2359a6a3281d84a"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-line-strong underline-offset-2 hover:text-accent-ink"
+            className="transition-colors hover:text-accent"
           >
-            dgallichan
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>{" "}
-          (CC BY 4.0), rendered as points.
-        </p>
+            Brain model: dgallichan, CC BY
+          </ExternalLink>
+          <span aria-hidden="true" className="h-3 w-px bg-line" />
+          <ShortcutToggle />
+        </div>
       </div>
     </footer>
   );

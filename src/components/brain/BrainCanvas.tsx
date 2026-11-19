@@ -19,7 +19,8 @@ import { loadBrain, type BrainData } from "@/lib/brain-data";
  * Under prefers-reduced-motion it only redraws when something changes.
  */
 
-const SIDE = Math.PI / 2;
+/** Home view: right side profile, front of the brain pointing right (toward the hero text). */
+export const HOME_YAW = -Math.PI / 2;
 const CAMERA = 3.4;
 const SCALE = 0.44; // brain size relative to the canvas
 const FIRE_EVERY = 280; // ms between new firings
@@ -29,6 +30,13 @@ const PICK_RADIUS = 18; // px
 const SPREAD_PART = 0.3; // share of the intro spent spreading out; the rest gathers
 const SCATTER_RADIUS = 1.1; // how far the cloud spreads (1 ≈ half the canvas)
 const MAX_PITCH = 1.3;
+/**
+ * Light-mode brain colour: the same violet as dark mode (--accent, #8b5cf6). Depth and
+ * lighting come from transparency only, so the colour never changes between modes.
+ */
+const LIGHT_SHADOW = [139, 92, 246]; // #8b5cf6
+const LIGHT_LIT = [139, 92, 246]; // #8b5cf6
+
 const LIGHT = (() => {
   const l = [-0.45, 0.6, -0.65]; // up-left, toward the viewer
   const n = Math.hypot(...l);
@@ -126,10 +134,12 @@ export default function BrainCanvas({
     let rgb: [number, number, number] = [139, 92, 246];
     let accent = "#8b5cf6";
     let contrast = 1.45;
+    let lightMode = false; // white background: colour each point from lilac (shadow) to deep violet (lit)
+    let pointBoost = 0; // extra point size on light backgrounds, where thin points look sparse
     let highlighted = initial.current.highlight ?? -1;
 
     // Camera. Ambient derives it from `clock`; explore eases toward a target.
-    let yaw = initial.current.view?.yaw ?? SIDE;
+    let yaw = initial.current.view?.yaw ?? HOME_YAW;
     let pitch = initial.current.view?.pitch ?? 0.1;
     let targetYaw = yaw, targetPitch = pitch;
     let clock = 0, tiltX = 0, tiltY = 0, mouseX = 0, mouseY = 0;
@@ -141,8 +151,10 @@ export default function BrainCanvas({
 
     const readColor = () => {
       accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || accent;
+      lightMode = document.documentElement.dataset.theme === "light";
       rgb = parseColor(accent);
-      contrast = document.documentElement.dataset.theme === "light" ? 1.9 : 1.45;
+      contrast = 1.45;
+      pointBoost = lightMode ? 1 : 0;
     };
 
     const nearest = (i: number) => {
@@ -171,7 +183,7 @@ export default function BrainCanvas({
       if (!data || !image) return;
       const { count, positions: pos, normals: nrm, depth, region } = data;
 
-      const turn = explore ? yaw : SIDE + Math.sin(clock) * 0.5 + tiltX * 0.35;
+      const turn = explore ? yaw : HOME_YAW + Math.sin(clock) * 0.5 - tiltX * 0.35;
       const tilt = explore ? pitch : 0.1 + tiltY;
       const cy = Math.cos(turn), syaw = Math.sin(turn);
       const cp = Math.cos(tilt), sp = Math.sin(tilt);
@@ -185,7 +197,7 @@ export default function BrainCanvas({
       const cs = Math.cos(swirl), ss = Math.sin(swirl);
       const fade = Math.min(1, t / 0.12);
       const flat = 0.42 * contrast; // unlit brightness while scattered
-      const size = Math.max(1, Math.round(dpr));
+      const size = Math.max(1, Math.round(dpr)) + pointBoost;
       const [r, g, b] = rgb;
 
       pixels.fill(0);
@@ -241,9 +253,26 @@ export default function BrainCanvas({
           bright = flat + (bright - flat) * gather;
           if (!facing) bright *= 1 - gather / 0.85;
         }
-        const alpha = Math.round(Math.min(1, bright) * 255 * fade);
-        if (alpha < 4) continue;
-        const color = ((alpha << 24) | (b << 16) | (g << 8) | r) >>> 0;
+        const lit = Math.min(1, bright);
+        let color: number;
+        if (lightMode) {
+          // White background: shade by colour (lilac → deep violet) and keep points mostly solid.
+          const dimmed = highlighted >= 0 && region[i] !== highlighted;
+          const t = dimmed ? 0 : lit;
+          let a = 0.4 + 0.42 * t * (1 - 0.4 * depth[i]);
+          if (dimmed) a *= 0.35;
+          if (!formed && !facing) a *= 1 - gather / 0.85;
+          const alpha = Math.round(a * 255 * fade);
+          if (alpha < 4) continue;
+          const lr = Math.round(LIGHT_SHADOW[0] + (LIGHT_LIT[0] - LIGHT_SHADOW[0]) * t);
+          const lg = Math.round(LIGHT_SHADOW[1] + (LIGHT_LIT[1] - LIGHT_SHADOW[1]) * t);
+          const lb = Math.round(LIGHT_SHADOW[2] + (LIGHT_LIT[2] - LIGHT_SHADOW[2]) * t);
+          color = ((alpha << 24) | (lb << 16) | (lg << 8) | lr) >>> 0;
+        } else {
+          const alpha = Math.round(lit * 255 * fade);
+          if (alpha < 4) continue;
+          color = ((alpha << 24) | (b << 16) | (g << 8) | r) >>> 0;
+        }
 
         const px0 = Math.round(cx * dpr), py0 = Math.round(cyy * dpr);
         for (let dy = 0; dy < size; dy++) {
@@ -441,8 +470,8 @@ export default function BrainCanvas({
         drawStill();
       },
       resetView: () => {
-        const turns = Math.round((yaw - SIDE) / (Math.PI * 2));
-        targetYaw = SIDE + turns * Math.PI * 2;
+        const turns = Math.round((yaw - HOME_YAW) / (Math.PI * 2));
+        targetYaw = HOME_YAW + turns * Math.PI * 2;
         targetPitch = 0.1;
         drawStill();
       },

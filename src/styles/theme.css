@@ -15,7 +15,6 @@
   --faint: #7c7c82; /* mono labels; still ≥ 4.5:1 on --bg */
   --line: rgb(255 255 255 / 0.08);
   --line-strong: rgb(255 255 255 / 0.14);
-  --dock-bg: rgb(17 17 19 / 0.72);
   --paper-rule: transparent;
 
   /* Derived from --accent: no need to edit these */
@@ -27,23 +26,23 @@
   color-scheme: dark;
 }
 
-/* Light mode: "lab notebook" (off-white paper, faint ruled lines) */
+/* Light mode: clean white, crisp contrast */
 :root[data-theme="light"] {
-  --bg: #f6f4ee;
-  --surface: #fbfaf6;
-  --surface-hover: #f1efe8;
-  --fg: #1b1a18;
-  --muted: #5c5a55;
-  --faint: #6f6c66;
-  --line: rgb(27 26 24 / 0.1);
-  --line-strong: rgb(27 26 24 / 0.18);
-  --dock-bg: rgb(251 250 246 / 0.75);
-  --paper-rule: rgb(27 26 24 / 0.04);
+  --bg: #ffffff;
+  --surface: #f7f7f8; /* cards: a touch of grey so they separate from the page */
+  --surface-hover: #f0f0f2;
+  --fg: #0f0f12;
+  --muted: #4a4a52; /* ≈ 8.9:1 on white */
+  --faint: #66666e; /* ≈ 5.7:1 on white */
+  --line: rgb(15 15 18 / 0.1);
+  --line-strong: rgb(15 15 18 / 0.2);
+  --paper-rule: transparent;
 
-  --accent-ink: color-mix(in oklab, var(--accent) 82%, black);
-  --accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
-  --accent-glow: color-mix(in oklab, var(--accent) 40%, transparent);
-  --brainwave-opacity: 0.28;
+  /* Same violet family as --accent, a step deeper so small purple text passes 4.5:1 on white (≈5.7:1). */
+  --accent-ink: #7c3aed;
+  --accent-soft: color-mix(in oklab, var(--accent) 10%, transparent);
+  --accent-glow: color-mix(in oklab, var(--accent) 35%, transparent);
+  --brainwave-opacity: 0.22;
 
   color-scheme: light;
 }

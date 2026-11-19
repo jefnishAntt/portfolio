@@ -36,6 +36,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  images: {
+    // 92 is used for the profile photo so it stays crisp when zoomed; 75 is Next's default.
+    qualities: [75, 92],
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

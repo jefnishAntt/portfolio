@@ -1,5 +1,5 @@
 /**
- * Keyboard shortcut preference (H / S / L / P jump between sections).
+ * Keyboard shortcut preference (H / W / P jump between sections).
  * Single-key shortcuts must be switchable off for people using voice control
  * or other assistive input (WCAG 2.1.4), so the footer has a toggle.
  */

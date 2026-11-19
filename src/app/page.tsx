@@ -4,8 +4,8 @@ import Providers from "@/components/layout/Providers";
 import About from "@/components/sections/About";
 import Hero from "@/components/sections/Hero";
 import Lab from "@/components/sections/Lab";
-import LearningLog from "@/components/sections/LearningLog";
-import SkillTree from "@/components/sections/SkillTree";
+import Work from "@/components/sections/Work";
+import Writing from "@/components/sections/Writing";
 
 export default function Portfolio() {
   return (
@@ -19,12 +19,12 @@ export default function Portfolio() {
 
       <Dock />
 
-      <main className="mx-auto max-w-[720px] px-4 sm:px-6">
+      <main className="mx-auto max-w-[52rem] px-4 sm:px-6">
         <Hero />
         <About />
-        <SkillTree />
-        <LearningLog />
+        <Work />
         <Lab />
+        <Writing />
       </main>
 
       <Footer />

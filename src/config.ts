@@ -6,11 +6,12 @@ const PROFILE = {
   firstName: "Jefnish",
   lastName: "ANTT",
   tagline: "Developer learning how brains and machines think.",
-  /** Put a photo in /public (e.g. /profile.jpg) and set the path here. Empty → initials placeholder. */
-  photo: "",
+  /**
+   * Profile photo. Put the image in /public (e.g. public/profile.jpg) and set "/profile.jpg" here.
+   * Square photos look best; it's cropped to a circle. Leave empty to show your initials.
+   */
+  photo: "/me.jpg",
   email: "jefnish007@gmail.com",
-  location: "Tamil Nadu, India",
-  openToWork: true,
 };
 
 const EXPERIENCE: Experience[] = [
@@ -21,11 +22,9 @@ const EXPERIENCE: Experience[] = [
     duration: "May 2024 — Present",
     location: "Tamil Nadu, India",
     points: [
-      "Owned system architecture, database schema, and UI end-to-end for a fully offline desktop POS & billing application built with Tauri, React, and Rust on a local SQLite database — sustaining 10,000+ local transactions daily at under 50ms processing latency in production.",
-      "Designed and implemented the frontend for a modern Learning Management System (LMS), building 15+ modular component systems and dashboards supporting over 2,000 active users.",
-      "Deployed and operated production applications on AWS Amplify, configured custom domains via Route 53, integrated an AWS RDS database for backend persistence, and monitored infrastructure cost and health using AWS Cost Explorer.",
-      "Improved production reliability and Core Web Vitals by optimizing asset loading and rendering, raising Lighthouse performance scores from 65 to 95+ and cutting page load time by 40%.",
-      "Engineered a high-performance, responsive static site with Next.js and React to structure, render, and manage 500+ course catalog items at scale.",
+      "Owned the architecture, database and UI of an offline desktop POS & billing app (Tauri, React, Rust, SQLite): 10,000+ transactions a day at under 50ms each in production.",
+      "Designed and built the frontend of a Learning Management System with 15+ reusable component systems and dashboards, serving 2,000+ active users.",
+      "Improved Core Web Vitals by optimising asset loading and rendering: Lighthouse performance rose from 65 to 95+ and page load time dropped by 40%.",
     ],
   },
 ];
@@ -36,14 +35,12 @@ const EDUCATION: Education[] = [
     degree: "B.E. in Computer Science & Engineering",
     institution: "Anna University Affiliated College",
     duration: "Expected 2027",
-    location: "Tamil Nadu, India",
   },
   {
     id: "EDU-02",
     degree: "Diploma in Computer Science & Engineering",
     institution: "Government Polytechnic College",
     duration: "2020 — 2023",
-    location: "Nagercoil, Tamil Nadu",
   },
 ];
 

@@ -1,31 +1,28 @@
 "use client";
 import { useSyncExternalStore } from "react";
+import { Keyboard } from "lucide-react";
 import { setShortcutsEnabled, shortcutsEnabled, subscribeShortcuts } from "@/lib/shortcuts";
 
-/** Lets people turn the single-key shortcuts (H / S / L / P) off. */
+/**
+ * Small keyboard icon that turns the single-key shortcuts (H / W / P) on or off.
+ * Kept because single-key shortcuts must be switchable off (WCAG 2.1.4).
+ */
 export default function ShortcutToggle() {
   const enabled = useSyncExternalStore(subscribeShortcuts, shortcutsEnabled, () => true);
+  const label = `Keyboard shortcuts H, W, P: ${enabled ? "on" : "off"}`;
   return (
     <button
       type="button"
       role="switch"
       aria-checked={enabled}
+      aria-label="Keyboard shortcuts (H, W, P)"
+      title={label}
       onClick={() => setShortcutsEnabled(!enabled)}
-      className="-mx-2 inline-flex min-h-8 items-center gap-2 rounded-md px-2 font-mono text-xs text-faint transition-colors duration-300 hover:text-fg"
+      className={`grid size-7 place-items-center rounded-full transition-colors duration-200 hover:bg-fg/5 hover:text-accent ${
+        enabled ? "text-accent-ink" : "text-faint"
+      }`}
     >
-      <span
-        aria-hidden="true"
-        className={`relative h-3.5 w-6 rounded-full border transition-colors duration-300 ${
-          enabled ? "border-accent bg-accent-soft" : "border-line-strong"
-        }`}
-      >
-        <span
-          className={`absolute top-0.5 size-2 rounded-full transition-all duration-300 ${
-            enabled ? "left-3 bg-accent" : "left-0.5 bg-faint"
-          }`}
-        />
-      </span>
-      Keyboard shortcuts (H, S, L, P)
+      <Keyboard size={14} aria-hidden />
     </button>
   );
 }

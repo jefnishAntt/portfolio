@@ -1,7 +1,10 @@
 "use client";
 import { m, useReducedMotion } from "framer-motion";
 
-/** Calm fade-and-rise as content scrolls into view. */
+/**
+ * Calm fade-and-rise as content scrolls into view. It starts a little before the
+ * content reaches the screen, so fast swipes on phones never show empty gaps.
+ */
 export default function Reveal({
   children,
   delay = 0,
@@ -15,10 +18,10 @@ export default function Reveal({
   return (
     <m.div
       className={className}
-      initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+      initial={{ opacity: 0, y: reduce ? 0 : 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: reduce ? 0.2 : 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: "0px 0px 15% 0px" }}
+      transition={{ duration: reduce ? 0.2 : 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </m.div>
