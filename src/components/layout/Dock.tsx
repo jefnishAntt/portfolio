@@ -1,16 +1,17 @@
 "use client";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { Fragment, useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import { FlaskConical, House, Moon, NotebookPen, Sun, User, Workflow } from "lucide-react";
+import { BriefcaseBusiness, FlaskConical, House, Moon, PenLine, Sun, User } from "lucide-react";
 import { shortcutsEnabled, subscribeShortcuts } from "@/lib/shortcuts";
 import { switchTheme } from "@/lib/theme-sweep";
+import { glassSurface } from "@/components/ui/surfaces";
 
 const ITEMS = [
   { id: "home", label: "Home", key: "h", icon: House },
   { id: "about", label: "About", key: null, icon: User },
-  { id: "skills", label: "Skill Tree", key: "s", icon: Workflow },
-  { id: "log", label: "Learning Log", key: "l", icon: NotebookPen },
+  { id: "work", label: "Work", key: "w", icon: BriefcaseBusiness },
   { id: "lab", label: "Lab", key: "p", icon: FlaskConical },
+  { id: "writing", label: "Writing", key: null, icon: PenLine },
 ] as const;
 
 function goTo(id: string) {
@@ -30,21 +31,12 @@ const subscribeTheme = (cb: () => void) => {
   return () => mo.disconnect();
 };
 
-const btn =
-  "peer relative grid size-10 place-items-center rounded-full text-muted transition-colors duration-300 hover:text-fg";
-
-/** Visual hint only: every control already has an aria-label. */
-function Tooltip({ label, shortcut }: { label: string; shortcut?: string | null }) {
-  return (
-    <span
-      aria-hidden="true"
-      className="pointer-events-none absolute top-full left-1/2 mt-3 -translate-x-1/2 -translate-y-1 whitespace-nowrap rounded-md border border-line bg-surface px-2 py-1 font-mono text-[11px] text-fg opacity-0 transition duration-200 peer-hover:translate-y-0 peer-hover:opacity-100 peer-focus-visible:translate-y-0 peer-focus-visible:opacity-100"
-    >
-      {label}
-      {shortcut && <kbd className="ml-2 text-faint">{shortcut.toUpperCase()}</kbd>}
-    </span>
-  );
-}
+/* Matches the reference nav: 36px round items, 16px icons, 14px labels, muted → foreground on hover. */
+const item =
+  "relative flex h-9 items-center justify-center rounded-full text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-ink";
+const iconItem = `${item} w-9`;
+const linkItem = `${item} w-9 text-sm sm:w-auto sm:gap-1.5 sm:px-3`;
+const Divider = () => <li aria-hidden="true" className="mx-1 h-5 w-px bg-line-strong" />;
 
 export default function Dock() {
   const [active, setActive] = useState("home");
@@ -64,7 +56,7 @@ export default function Dock() {
     return () => io.disconnect();
   }, []);
 
-  // Keyboard shortcuts: H / S / L / P (can be switched off in the footer).
+  // Keyboard shortcuts: H / W / P (can be switched off in the footer).
   useEffect(() => {
     if (!shortcuts) return;
     const onKey = (e: KeyboardEvent) => {
@@ -96,42 +88,46 @@ export default function Dock() {
   return (
     <nav
       aria-label="Sections"
-      className="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-4"
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
+      className="fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 sm:bottom-auto sm:top-7"
+      style={{ marginBottom: "env(safe-area-inset-bottom)" }}
     >
-      <ul
-        className="flex items-center gap-0.5 rounded-full border border-line p-1.5 backdrop-blur-md"
-        style={{ background: "var(--dock-bg)" }}
-      >
-        {ITEMS.map(({ id, label, key, icon: Icon }) => {
+      <ul className={`flex items-center gap-0.5 rounded-full p-1 ${glassSurface}`}>
+        {ITEMS.map(({ id, label, key, icon: Icon }, index) => {
           const isActive = active === id;
           const hint = shortcuts ? key : null;
+          const isHome = id === "home";
           return (
-            <li key={id} className="relative">
-              <a
-                href={`#${id}`}
-                aria-label={hint ? `${label} (shortcut ${hint.toUpperCase()})` : label}
-                aria-current={isActive ? "location" : undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  goTo(id);
-                }}
-                className={`${btn} ${isActive ? "bg-accent-soft text-accent-ink hover:text-accent-ink" : ""}`}
-              >
-                <Icon size={18} aria-hidden />
-                {isActive && <span className="absolute bottom-1 size-1 rounded-full bg-accent" aria-hidden="true" />}
-              </a>
-              <Tooltip label={label} shortcut={hint} />
-            </li>
+            <Fragment key={id}>
+              <li>
+                <a
+                  href={`#${id}`}
+                  aria-label={hint ? `${label} (shortcut ${hint.toUpperCase()})` : label}
+                  aria-current={isActive ? "location" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo(id);
+                  }}
+                  className={`${isHome ? iconItem : linkItem} ${isActive ? "bg-fg/[0.07] text-fg" : ""}`}
+                >
+                  <Icon className="size-4" aria-hidden />
+                  {!isHome && (
+                    <span className="hidden sm:inline" aria-hidden="true">
+                      {label}
+                    </span>
+                  )}
+                </a>
+              </li>
+              {index === 0 && <Divider />}
+            </Fragment>
           );
         })}
-        <li aria-hidden="true" className="mx-1 h-5 w-px bg-line" />
-        <li className="relative">
+        <Divider />
+        <li>
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            className={btn}
+            className={iconItem}
           >
             <AnimatePresence mode="wait" initial={false}>
               <m.span
@@ -142,11 +138,10 @@ export default function Dock() {
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="grid place-items-center"
               >
-                {theme === "light" ? <Moon size={18} aria-hidden /> : <Sun size={18} aria-hidden />}
+                {theme === "light" ? <Moon className="size-4" aria-hidden /> : <Sun className="size-4" aria-hidden />}
               </m.span>
             </AnimatePresence>
           </button>
-          <Tooltip label={theme === "light" ? "Dark mode" : "Lab notebook mode"} />
         </li>
       </ul>
     </nav>

@@ -4,7 +4,7 @@ interface SocialLinks {
   icon: React.ComponentType<{ size?: number; className?: string; "aria-hidden"?: boolean }>;
 }
 
-interface Experience {
+export interface Experience {
   id: string;
   role: string;
   company: string;
@@ -26,4 +26,4 @@ interface SkillCategory {
   items: string[];
 }
 
-export type { SocialLinks, Experience, Education, SkillCategory };
+export type { SocialLinks, Education, SkillCategory };

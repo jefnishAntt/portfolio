@@ -1,146 +1,160 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, RotateCw, ScanEye, X } from "lucide-react";
+import { RotateCcw, RotateCw, X } from "lucide-react";
 import BrainCanvas, { type BrainCanvasHandle } from "./BrainCanvas";
 import { BRAIN_REGIONS } from "@/data/brain-regions";
+import { iconButton } from "@/components/ui/button-styles";
+import Carousel from "@/components/ui/Carousel";
+import Eyebrow from "@/components/ui/Eyebrow";
+import { glassSurface } from "@/components/ui/surfaces";
 
-const ROTATE_STEP = 0.5; // radians per button press
+const ROTATE_STEP = 0.45; // radians per press
 
-const controlBtn =
-  "grid size-10 place-items-center rounded-full border border-line text-muted transition-colors duration-300 hover:border-line-strong hover:text-fg";
+/** Same item style as the site navigation. */
+const pillItem =
+  "flex h-9 min-w-9 items-center justify-center rounded-full text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-ink";
 
 /**
- * Full-screen-ish dialog for exploring the brain: drag (or use the buttons) to
- * rotate, pick a region from the list or by clicking the brain, read what it
- * does. Uses the native <dialog>, so focus trapping and Esc come for free.
+ * Full-screen brain viewer, exactly one screen tall (no page scroll). Built from the
+ * site's own parts: section-style header, the nav's glass pill for rotate controls,
+ * and the shared Carousel (same as Selected work) to step through the regions.
+ * Native <dialog>: focus is trapped inside and Esc closes it.
+ * Keyboard: ← → rotate (when the brain is focused), 1–6 pick a region.
  */
-export default function BrainExplorer({ onClose }: { onClose: () => void }) {
+export default function BrainExplorer({ onClose }: { onClose: (viaKeyboard: boolean) => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const usedKeyboard = useRef(false); // how the explorer is being used, so closing can mirror it
   const brainRef = useRef<BrainCanvasHandle>(null);
-  const [selected, setSelected] = useState<number | null>(null);
-  const region = selected === null ? null : BRAIN_REGIONS[selected];
+  const [selected, setSelected] = useState(0); // always one region open; step through them
+  const region = BRAIN_REGIONS[selected];
+  const count = BRAIN_REGIONS.length;
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (dialog && !dialog.open) dialog.showModal();
+    // Start focus on the dialog itself, not the close button, so no ring appears on open.
+    dialog?.focus({ preventScroll: true });
     document.documentElement.classList.add("scroll-locked");
     return () => document.documentElement.classList.remove("scroll-locked");
   }, []);
 
-  const toggle = (index: number) => setSelected((current) => (current === index ? null : index));
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    usedKeyboard.current = true;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const n = Number(e.key);
+    if (Number.isInteger(n) && n >= 1 && n <= count) {
+      e.preventDefault();
+      setSelected(n - 1);
+    }
+  };
+
+  const onBrainKeyDown = (e: React.KeyboardEvent) => {
+    const moves: Record<string, [number, number]> = {
+      ArrowLeft: [ROTATE_STEP, 0],
+      ArrowRight: [-ROTATE_STEP, 0],
+      ArrowUp: [0, -ROTATE_STEP / 2],
+      ArrowDown: [0, ROTATE_STEP / 2],
+    };
+    const move = moves[e.key];
+    if (move) {
+      e.preventDefault();
+      brainRef.current?.rotateBy(...move);
+    }
+  };
 
   return (
     <dialog
       ref={dialogRef}
-      onClose={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) e.currentTarget.close(); // click on the backdrop
-      }}
+      onClose={() => onClose(usedKeyboard.current)}
+      onKeyDown={onKeyDown}
+      onPointerDown={() => (usedKeyboard.current = false)}
+      tabIndex={-1}
       aria-labelledby="brain-explorer-title"
-      className="brain-dialog m-auto max-h-[calc(100dvh-1.5rem)] w-[min(56rem,calc(100vw-1.5rem))] overflow-y-auto overscroll-contain rounded-xl border border-line bg-surface p-0 text-muted backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+      className="brain-dialog m-0 outline-none h-dvh max-h-none w-screen max-w-none overflow-hidden border-0 bg-bg p-0 text-muted backdrop:bg-black/70"
     >
-      <div className="p-5 sm:p-7">
-        <header className="flex items-start justify-between gap-4">
+      {/* Exactly one screen tall: nothing on the page scrolls. */}
+      <div className="mx-auto flex h-full max-w-5xl flex-col px-4 pb-4 pt-4 sm:px-6 sm:pb-8 sm:pt-8">
+        {/* Header: same label + title style as the page sections */}
+        <header className="flex shrink-0 items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-xs text-faint">brain explorer</p>
-            <h2 id="brain-explorer-title" className="mt-1 text-xl font-semibold tracking-tight text-fg sm:text-2xl">
+            <Eyebrow>{"// brain explorer"}</Eyebrow>
+            <h2 id="brain-explorer-title" className="mt-1.5 text-[1.375rem] font-semibold leading-snug tracking-tight text-fg">
               Explore the brain
             </h2>
+            <Eyebrow className="mt-1 hidden sm:block">drag to rotate · click a region or swipe the card · keys 1–{count}</Eyebrow>
           </div>
-          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="Close brain explorer" className={controlBtn}>
-            <X size={18} aria-hidden />
+          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="Close brain explorer" className={iconButton}>
+            <X className="size-4" aria-hidden />
           </button>
         </header>
 
-        <div className="mt-6 grid gap-6 md:grid-cols-[minmax(0,1fr)_20rem] md:gap-8">
-          {/* Brain + rotate controls */}
-          <div>
-            <div className="mx-auto aspect-square w-full max-w-[26rem]">
+        <div className="mt-4 flex min-h-0 flex-1 flex-col gap-4 lg:mt-6 lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
+          {/* Brain: fills whatever space is left, always square */}
+          <div className="relative flex min-h-[10rem] flex-1 items-center justify-center [container-type:size] lg:min-h-0">
+            <div
+              tabIndex={0}
+              role="group"
+              aria-label="Brain view. Drag, or use the arrow keys, to rotate."
+              onKeyDown={onBrainKeyDown}
+              className="aspect-square w-[min(100cqw,100cqh)] rounded-3xl"
+            >
               <BrainCanvas
                 ref={brainRef}
                 mode="explore"
                 highlight={selected}
-                view={region?.view}
-                onPick={toggle}
-                label={
-                  region
-                    ? `3D brain with the ${region.name.toLowerCase()} highlighted`
-                    : "3D brain you can rotate. Pick a region from the list to highlight it."
-                }
+                view={region.view}
+                onPick={setSelected}
+                label={`3D brain with the ${region.name.toLowerCase()} highlighted`}
               />
             </div>
-            <div className="mt-2 flex items-center justify-center gap-2">
-              <button type="button" onClick={() => brainRef.current?.rotateBy(ROTATE_STEP)} aria-label="Rotate left" className={controlBtn}>
-                <RotateCcw size={16} aria-hidden />
+
+            {/* Rotate controls float on the brain area, in the nav's glass pill */}
+            <div className={`absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-0.5 rounded-full p-1 ${glassSurface}`}>
+              <button type="button" onClick={() => brainRef.current?.rotateBy(ROTATE_STEP)} aria-label="Rotate left" className={pillItem}>
+                <RotateCcw className="size-4" aria-hidden />
               </button>
+              <span aria-hidden="true" className="mx-1 h-5 w-px bg-line-strong" />
               <button
                 type="button"
-                onClick={() => {
-                  setSelected(null);
-                  brainRef.current?.resetView();
-                }}
-                className="h-10 rounded-full border border-line px-4 font-mono text-xs text-muted transition-colors duration-300 hover:border-line-strong hover:text-fg"
+                onClick={() => brainRef.current?.resetView()}
+                className={`${pillItem} px-3 text-sm`}
               >
-                Reset view
+                Reset
               </button>
-              <button type="button" onClick={() => brainRef.current?.rotateBy(-ROTATE_STEP)} aria-label="Rotate right" className={controlBtn}>
-                <RotateCw size={16} aria-hidden />
+              <span aria-hidden="true" className="mx-1 h-5 w-px bg-line-strong" />
+              <button type="button" onClick={() => brainRef.current?.rotateBy(-ROTATE_STEP)} aria-label="Rotate right" className={pillItem}>
+                <RotateCw className="size-4" aria-hidden />
               </button>
             </div>
-            <p className="mt-3 text-center font-mono text-[11px] text-faint">Drag to rotate · tap a region to select it</p>
           </div>
 
-          {/* Region list + details */}
-          <div>
-            <ul aria-label="Brain regions" className="grid grid-cols-2 gap-2 md:grid-cols-1">
-              {BRAIN_REGIONS.map((item, index) => {
-                const active = selected === index;
+          {/* Side column: one region at a time, stepped like the Work carousel */}
+          <div className="flex shrink-0 flex-col lg:justify-center">
+            <Carousel
+              count={count}
+              label="Brain regions"
+              noun="region"
+              itemName={(i) => BRAIN_REGIONS[i].name}
+              index={selected}
+              onIndexChange={setSelected}
+              padding="sm"
+              slideClassName="max-h-[34dvh] overflow-y-auto overscroll-contain lg:max-h-none lg:overflow-visible"
+              renderSlide={(i) => {
+                const item = BRAIN_REGIONS[i];
                 return (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => toggle(index)}
-                      className={`flex min-h-11 w-full items-baseline gap-3 rounded-lg border px-3 py-2 text-left text-sm transition-colors duration-300 ${
-                        active
-                          ? "border-accent bg-accent-soft text-fg"
-                          : "border-line text-muted hover:border-line-strong hover:text-fg"
-                      }`}
-                    >
-                      <span className={`font-mono text-[11px] ${active ? "text-accent-ink" : "text-faint"}`} aria-hidden="true">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      {item.name}
-                    </button>
-                  </li>
+                  <>
+                    <h3 className="text-lg font-semibold tracking-tight text-fg">{item.name}</h3>
+                    <p className="text-sm text-muted">{item.role}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-fg/85">{item.about}</p>
+                    <Eyebrow className="mt-4">In brain signals</Eyebrow>
+                    <p className="mt-1 text-sm leading-relaxed text-fg/85">{item.signal}</p>
+                  </>
                 );
-              })}
-            </ul>
-
-            <div aria-live="polite" className="mt-5 min-h-48 border-t border-line pt-5">
-              {region ? (
-                <>
-                  <h3 className="font-medium text-fg">{region.name}</h3>
-                  <p className="mt-1 font-mono text-xs text-accent-ink">{region.role}</p>
-                  <p className="mt-3 text-sm leading-relaxed">{region.about}</p>
-                  <p className="mt-4 font-mono text-[11px] text-faint">In brain signals</p>
-                  <p className="mt-1 text-sm leading-relaxed">{region.signal}</p>
-                </>
-              ) : (
-                <div className="flex flex-col items-start gap-3">
-                  <ScanEye size={20} className="text-accent-ink" aria-hidden />
-                  <p className="text-sm leading-relaxed">
-                    Pick a region to see what it does and how it shows up in brain signals.
-                  </p>
-                </div>
-              )}
-            </div>
+              }}
+            />
+            <Eyebrow className="mt-3 hidden lg:block">Region borders are approximate.</Eyebrow>
           </div>
         </div>
-
-        <p className="mt-6 border-t border-line pt-4 font-mono text-[11px] text-faint">
-          Region borders are approximate. This is a learning sketch, not a medical atlas.
-        </p>
       </div>
     </dialog>
   );

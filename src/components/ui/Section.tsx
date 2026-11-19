@@ -1,4 +1,6 @@
 import Reveal from "./Reveal";
+import Eyebrow from "./Eyebrow";
+import { regionForSection } from "@/data/section-regions";
 
 export default function Section({
   id,
@@ -9,20 +11,31 @@ export default function Section({
 }: {
   id: string;
   label: string;
-  title: string;
+  title?: string;
   intro?: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const region = regionForSection(id);
   return (
-    <section id={id} aria-labelledby={`${id}-title`} tabIndex={-1} className="py-20 sm:py-28">
+    <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} tabIndex={-1} className="py-16 text-base sm:py-20">
       <Reveal>
-        <p className="font-mono text-xs text-faint">{label}</p>
-        <h2 id={`${id}-title`} className="mt-2 text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
-          {title}
-        </h2>
-        {intro && <p className="mt-3 max-w-prose leading-relaxed">{intro}</p>}
+        <Eyebrow>
+          {label}
+          {region && (
+            <span title={`${region.name}: ${region.why}`}>
+              {" · "}
+              <span className="text-accent-ink">{region.name.toLowerCase()}</span>
+            </span>
+          )}
+        </Eyebrow>
+        {title && (
+          <h2 id={`${id}-title`} className="mt-2 text-[1.375rem] font-semibold leading-snug tracking-tight text-fg">
+            {title}
+          </h2>
+        )}
+        {intro && <p className="mt-2 max-w-prose leading-relaxed text-muted">{intro}</p>}
       </Reveal>
-      <Reveal delay={0.08} className="mt-10">
+      <Reveal delay={0.08} className="mt-8">
         {children}
       </Reveal>
     </section>
