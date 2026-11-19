@@ -12,7 +12,6 @@ const PROFILE = {
    */
   photo: "/me.jpg",
   email: "jefnish007@gmail.com",
-  location: "Tamil Nadu, India",
 };
 
 const EXPERIENCE: Experience[] = [
@@ -36,14 +35,12 @@ const EDUCATION: Education[] = [
     degree: "B.E. in Computer Science & Engineering",
     institution: "Anna University Affiliated College",
     duration: "Expected 2027",
-    location: "Tamil Nadu, India",
   },
   {
     id: "EDU-02",
     degree: "Diploma in Computer Science & Engineering",
     institution: "Government Polytechnic College",
     duration: "2020 — 2023",
-    location: "Nagercoil, Tamil Nadu",
   },
 ];
 

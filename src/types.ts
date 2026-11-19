@@ -18,7 +18,6 @@ interface Education {
   degree: string;
   institution: string;
   duration: string;
-  location: string;
 }
 
 interface SkillCategory {
