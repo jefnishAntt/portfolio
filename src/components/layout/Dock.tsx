@@ -34,8 +34,8 @@ const subscribeTheme = (cb: () => void) => {
 /* Matches the reference nav: 36px round items, 16px icons, 14px labels, muted → foreground on hover. */
 const item =
   "relative flex h-9 items-center justify-center rounded-full text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-ink";
-const iconItem = `${item} w-9`;
-const linkItem = `${item} w-9 text-sm sm:w-auto sm:gap-1.5 sm:px-3`;
+const iconItem = `${item} icon-hover w-9`;
+const linkItem = `${item} icon-hover w-9 text-sm sm:w-auto sm:gap-1.5 sm:px-3`;
 const Divider = () => <li aria-hidden="true" className="mx-1 h-5 w-px bg-line-strong" />;
 
 export default function Dock() {

@@ -18,7 +18,7 @@ export default function ShortcutToggle() {
       aria-label="Keyboard shortcuts (H, W, P)"
       title={label}
       onClick={() => setShortcutsEnabled(!enabled)}
-      className={`grid size-7 place-items-center rounded-full transition-colors duration-200 hover:bg-fg/5 hover:text-accent ${
+      className={`icon-hover grid size-7 place-items-center rounded-full ${
         enabled ? "text-accent-ink" : "text-faint"
       }`}
     >
