@@ -40,7 +40,7 @@ export default function Hero() {
                 initials={initials}
                 grayscale
                 sizes="(min-width: 1024px) 144px, (min-width: 640px) 128px, 96px"
-                className="size-[4.5rem] border-2 shadow-md ring-4 ring-bg min-[390px]:size-[5.25rem] sm:size-[6.5rem] lg:size-[7.25rem]"
+                className="size-[5.5rem] border-2 shadow-md ring-4 ring-bg min-[390px]:size-[6.5rem] sm:size-[8rem] lg:size-[9rem]"
               />
             </div>
             <div className="min-w-0">
