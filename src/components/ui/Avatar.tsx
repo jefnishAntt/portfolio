@@ -35,16 +35,29 @@ export default function Avatar({
       style={showPhoto ? undefined : { backgroundImage: "radial-gradient(circle at 30% 20%, var(--accent-soft), transparent 70%)" }}
     >
       {showPhoto ? (
-        <Image
-          src={src!}
-          alt={`Portrait of ${name}`}
-          fill
-          sizes={sizes}
-          quality={92}
-          priority
-          className={`object-cover ${grayscale ? "grayscale" : ""}`}
-          onError={() => setFailed(true)}
-        />
+        <>
+          <Image
+            src={src!}
+            alt={`Portrait of ${name}`}
+            fill
+            sizes={sizes}
+            quality={92}
+            priority
+            className={`object-cover ${grayscale ? "grayscale" : ""}`}
+            onError={() => setFailed(true)}
+          />
+          {grayscale && (
+            // Brand tint: 10% violet over the black-and-white photo, with a soft black shade at the bottom.
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgb(0 0 0 / 0) 40%, rgb(0 0 0 / 0.35) 100%), linear-gradient(rgb(139 92 246 / 0.1), rgb(139 92 246 / 0.1))",
+              }}
+            />
+          )}
+        </>
       ) : (
         <div
           role="img"
